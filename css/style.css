@@ -28,7 +28,7 @@ header{
     flex-direction: column;
     padding: 1rem 2rem;
     background-color:rgba(0, 0, 0, 0.79);
-    box-shadow: 8px 0px 10px rgba(0, 0, 0, 0.652);
+    box-shadow: 0.5rem 0rem 10px rgba(168, 168, 168, 0.652);
     color: white;
     display: block;
 }
@@ -73,10 +73,20 @@ header{
 .main-grid {
     background-color:rgba(0, 0, 0, 0.568);
     display: grid;
+    align-items: center;
+    justify-content: center;
     grid-template-rows: auto auto 1fr;
     grid-template-columns: repeat(6, 1fr); 
     gap: 1rem;
     padding: 1rem;
+}
+
+.welcome-message {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-left: 1rem;
+    display: inline-block;
+    font-weight: bold;
 }
 
 .search {
@@ -96,68 +106,75 @@ header{
 .carousel {
     grid-column: span 6; 
     display: flex;
-    justify-content: space-between; 
+    justify-content:center; 
     align-items: center;
     overflow: hidden;
+    width: 100%;
     height: 31.25rem;
-    padding: 1rem;
+    margin: 2.25rem;
     position: relative;
     background-color:transparent; 
 }
 
 .carousel-content {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    object-fit: cover;
     border-radius:10px ;
+    margin: 1rem;
 }
 
 .carousel-content img {
-    max-width: 80%;
-    height: 25rem;
-    border-radius: 1.5rem;
-    margin-right: 1rem;
-    object-fit:scale-down;
+    object-fit: fill;
+    width: 100%;
+    height: 30rem;
+    border-radius: 2rem;    
 }
 
 .game-info {
-    width: 35%; 
-    height: 25.375rem;
+    width: 40%; 
+    height: 30rem;
+    margin-right: 6rem;
     padding: 1.5rem;
     background: rgba(0, 0, 0, 0.6); 
     backdrop-filter: blur(80px); 
-    border-radius: 0.5rem;
+    border-radius: 2rem;    
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: end;
-    align-items: center;
+    justify-content: space-between;
+    align-items: start; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
+    text-align: left;
 }
 
 .game-info h3 {
+    margin-top: 3.125rem;
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
-.game-info p {
-    font-size: 1rem;
-    margin-bottom: -3rem;
-    line-height: 1.5;
+#categorias{
+    display: inline-block;
+    background-color: #525252;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
 }
 
 .buy-button {
-    margin-top: 9.375rem;
-    padding: 0.75rem 1.5rem;
+    width: 100%; 
+    padding: 1rem; 
     font-size: 1rem;
     color: #fff;
     background-color: #525252;
     border: none;
-    border-radius: 0.5rem;
+    border-radius:2rem; 
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .buy-button:hover {
@@ -167,25 +184,26 @@ header{
 .games-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 1rem;
-    max-width: 80%;
     width: 100%;
-    padding: 0 1rem;
-    margin: 0 auto;
+    margin-left: 50px;;
+    justify-content: center;
+    flex-wrap:wrap;
+    overflow-x: auto; 
+    gap: 1rem; 
+    padding: 1rem;
 }
 
-.game {
-    width: 12rem;
-    height: 18rem;
-    background-color: #333;
+.games-container .game-item {
+    width: 15rem; 
+    height: 20rem; 
+    background: rgba(0, 0, 0, 0.8);
     color: white;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     padding: 1rem;
-    border-radius: 8px;
     text-align: center;
 }
 
-.game img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-}

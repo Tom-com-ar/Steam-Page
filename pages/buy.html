@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/buy.css">
     <title>Steam Rediseño</title>
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -13,38 +15,60 @@
         </div>
         <nav>
             <ul class="nav-var">
+                <li><a href="../index.html">Home</a></li>
                 <li><a href="#">Comprar Juegos</a></li>
                 <li><a href="#">Mi Biblioteca</a></li>
                 <li><a href="#">About</a></li>
             </ul>
         </nav>
     </header>
-    <main class="main-grid">
+    <main id="main" class="main-grid">
         <section class="search">
-            <input type="text" placeholder="Buscar juegos..." class="search-bar">
+            <input type="text" id="search-bar" placeholder="Buscar juegos..." class="search-bar">
+            <div id="welcome-message" class="welcome-message"></div>
         </section>
-        <section class="games">
-            <div class="games-container">
-                <div class="game">
-                    <img src="./assets/game1.jpg" alt="Game 1">
+
+        <!-- Botón para abrir el modal de filtros -->
+        <section class="filters">
+            <button id="filter-button" class="filter-button">Filtrar</button>
+        </section>
+
+        <!-- Modal de Filtros -->
+        <div id="filter-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <h2>Filtrar Juegos</h2>
+
+                <h3>Géneros:</h3>
+                <div id="genre-filter">
+                    <label><input type="checkbox" value="Action"> Acción</label>
+                    <label><input type="checkbox" value="Adventure"> Aventura</label>
+                    <label><input type="checkbox" value="RPG"> RPG</label>
+                    <label><input type="checkbox" value="Strategy"> Estrategia</label>
+                    <!-- Agrega más géneros según lo necesites -->
                 </div>
-                <div class="game">
-                    <img src="./assets/game2.jpg" alt="Game 2">
-                </div>
-                <div class="game">
-                    <img src="./assets/game3.jpg" alt="Game 3">
-                </div>
-                <div class="game">
-                    <img src="./assets/game4.jpg" alt="Game 4">
-                </div>
-                <div class="game">
-                    <img src="./assets/game5.jpg" alt="Game 5">
-                </div>
-                <div class="game">
-                    <img src="./assets/game6.jpg" alt="Game 6">
-                </div>
+
+                <h3>Rango de Precio:</h3>
+                <label for="price-min">Precio Mínimo:</label>
+                <input type="number" id="price-min" placeholder="Precio mínimo">
+
+                <label for="price-max">Precio Máximo:</label>
+                <input type="number" id="price-max" placeholder="Precio máximo">
+
+                <button id="apply-filters">Aplicar Filtros</button>
+            </div>
+        </div>
+
+
+        <section class="catalogo">
+            <div id="catalogo-container" class="catalogo-container">
+                <!-- Los juegos se cargarán aquí dinámicamente -->
             </div>
         </section>
     </main>
+
+    <script src="../javascript/buy.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
+
 </html>
