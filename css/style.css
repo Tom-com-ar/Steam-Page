@@ -27,7 +27,8 @@ header{
     display: flex;
     flex-direction: column;
     padding: 1rem 2rem;
-    background-color:rgba(0, 0, 0, 0.568);
+    background-color:rgba(0, 0, 0, 0.79);
+    box-shadow: 8px 0px 10px rgba(0, 0, 0, 0.652);
     color: white;
     display: block;
 }
@@ -61,9 +62,12 @@ header{
 }
 
 .nav-var li:hover{
-    background-color: #424242;
+    background-color: #878787;
     cursor: pointer;
-    color:white;
+}
+
+.nav-var li a:hover{
+    color:rgb(0, 0, 0);
 }
 
 .main-grid {
