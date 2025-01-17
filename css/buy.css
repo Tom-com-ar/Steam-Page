@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 
-*{
+* {
     margin: 0;
     padding: 0;
-    box-sizing:border-box;
+    box-sizing: border-box;
     font-family: "Outfit", serif;
     color: white;
 }
 
-body{
-    background-color: #333; 
+body {
+    background-color: #333;
     margin: 0;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -20,26 +20,26 @@ body{
     backdrop-filter: blur(100px);
 }
 
-header{
+header {
     backdrop-filter: blur(100px);
     height: 100vh;
     display: flex;
     flex-direction: column;
     padding: 1rem 2rem;
-    background-color:rgba(0, 0, 0, 0.79);
+    background-color: rgba(0, 0, 0, 0.79);
     box-shadow: 0.5rem 0rem 10px rgba(168, 168, 168, 0.652);
     color: white;
     display: block;
 }
 
-.logo{
+.logo {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: top;
 }
 
-.nav-var{
+.nav-var {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -49,30 +49,31 @@ header{
     justify-content: start;
 }
 
-.nav-var li{
+.nav-var li {
     margin-bottom: 1rem;
     border-radius: .9375rem;
     padding: 0.5rem 1rem;
 }
 
-.nav-var li a{
+.nav-var li a {
     color: white;
     text-decoration: none;
 }
 
-.nav-var li:hover{
+.nav-var li:hover {
     background-color: #878787;
     cursor: pointer;
 }
 
-.nav-var li a:hover{
-    color:rgb(0, 0, 0);
+.nav-var li a:hover {
+    color: rgb(0, 0, 0);
 }
 
 
-main{
-    overflow-y:scroll;
+main {
+    overflow-y: scroll;
 }
+
 /* Estilo de la barra de búsqueda */
 .search {
     text-align: center;
@@ -171,19 +172,24 @@ main{
 #todosjuegos {
     padding: .625rem;
     display: flex;
-    align-items: center;  /* Alinea verticalmente el texto con el botón */
-    margin: 0;  /* Elimina márgenes extra */
+    align-items: center;
+    /* Alinea verticalmente el texto con el botón */
+    margin: 0;
+    /* Elimina márgenes extra */
 }
 
 .filters {
     display: flex;
-    justify-content: flex-end; /* Alinea el botón al final */
-    margin-top: 0;  /* Elimina cualquier margen superior innecesario */
+    justify-content: flex-end;
+    /* Alinea el botón al final */
+    margin-top: 0;
+    /* Elimina cualquier margen superior innecesario */
 }
 
 .filter-button {
     padding: 10px 20px;
-    background-color: #ffffff; /* Un color para el botón, puedes ajustarlo */
+    background-color: #ffffff;
+    /* Un color para el botón, puedes ajustarlo */
     color: rgb(0, 0, 0);
     border: none;
     cursor: pointer;
@@ -193,17 +199,20 @@ main{
 
 .filter-button:hover {
     color: white;
-    background-color: #5b5b5b;  /* Color más oscuro al pasar el ratón */
+    background-color: #5b5b5b;
+    /* Color más oscuro al pasar el ratón */
 }
 
 label {
     font-size: 16px;
     margin-bottom: 8px;
     display: block;
-    color: #ffffff; /* Color visible para las etiquetas */
+    color: #ffffff;
+    /* Color visible para las etiquetas */
 }
 
-select, input[type="number"] {
+select,
+input[type="number"] {
     width: 100%;
     background-color: #878787;
     padding: 8px;
@@ -213,33 +222,34 @@ select, input[type="number"] {
 }
 
 .modal input[type="number"] {
-    color: #ffffff; /* Asegura que los números sean visibles */
+    color: #ffffff;
+    /* Asegura que los números sean visibles */
 }
 
-#apply-filters{
+#apply-filters {
     border-radius: .625rem;
     padding: .625rem;
     color: black;
     background-color: #afafaf;
 }
 
-#apply-filters:hover{
+#apply-filters:hover {
     cursor: pointer;
     background-color: #00fd1d;
 }
 
 /* Estilo para el modal */
 .modal {
-    display: none;  
+    display: none;
     position: fixed;
-    z-index: 1; 
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    background-color: rgba(0, 0, 0, 0.4); 
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
     justify-content: center;
-    align-items: center; 
+    align-items: center;
 }
 
 /* Contenido del modal */
@@ -248,9 +258,9 @@ select, input[type="number"] {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #000000;
-    width: 80%; 
-    max-width: 500px; 
-    border-radius: 8px; 
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
 }
 
 /* Estilo para el botón de cerrar */
@@ -266,4 +276,97 @@ select, input[type="number"] {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* El contenedor del carrito estará oculto al inicio */
+#carrito-container {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    /* Estará fuera de la pantalla a la izquierda */
+    width: 300px;
+    /* Ajusta el ancho del carrito */
+    height: 100%;
+    background-color: #f1f1f1;
+    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: transform 0.3s ease;
+    /* Suaviza el movimiento */
+}
+
+/* Cuando el carrito es visible, se desplaza hacia la izquierda */
+#carrito-container.visible {
+    transform: translateX(300px);
+    /* Se mueve hacia la derecha, mostrando el carrito */
+}
+
+/* Estilos para el botón del carrito */
+#carrito-button {
+    position: fixed;
+    bottom: 20px;
+    /* Poner el botón en la parte inferior */
+    left: 20px;
+    /* Poner el botón a la izquierda */
+    padding: 10px 20px;
+    background-color: #28a745;
+    /* Color verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 101;
+    /* Asegúrate de que el botón esté encima del carrito */
+}
+
+/* Estilo para el botón cuando se pone el mouse encima */
+#carrito-button:hover {
+    background-color: #218838;
+}
+
+#carrito-container {
+    z-index: 100;
+}
+
+#carrito-button {
+    z-index: 101;
+    /* Más alto que el carrito para que no se cubra */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 10% auto;
+    padding: 20px;
+    width: 50%;
+    border-radius: 8px;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.carrito-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.carrito-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
 }

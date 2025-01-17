@@ -68,12 +68,24 @@
                         <h4 id="game-name"></h4>
                         <p id="game-price"></p>
                         <p id="game-category"></p>
-                        <button class="buy-button"><span class="arrow">&#8594;</span></button>
+                        <button class="buy-button">Comprar<span class="arrow">&#8594;</span></button>
                     </div>
                 </div>
             </div>
         </section>
-        
+
+
+        <div id="cart-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <h3>Carrito</h3>
+                <div id="cart-items"></div>
+                <button id="finalizar-compra">Finalizar Compra</button>
+            </div>
+        </div>
+
+
+
     </main>
 
     <script src="../javascript/buy.js"></script>
