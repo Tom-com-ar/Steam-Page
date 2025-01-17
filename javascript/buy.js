@@ -8,11 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const filtroGenero = document.getElementById('genre-filter'); // Contenedor de los géneros
     const filtroPrecioMin = document.getElementById('price-min');
     const filtroPrecioMax = document.getElementById('price-max');
+    const todosjuegos = document.getElementById('todosjuegos');
     let todosLosJuegos = [];
     let juegosFiltrados = [];
     let paginaActual = 1;  // Página inicial para cargar los juegos
     const juegosPorPagina = 30; // Número de juegos que cargaremos por página
 
+    // Función para mostrar los juegos en el contenedor
     // Función para mostrar los juegos en el contenedor
     function mostrarJuegos(juegos) {
         contenedorCatalogo.innerHTML = ''; // Limpiar contenedor antes de agregar nuevos juegos
@@ -20,15 +22,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const itemJuego = document.createElement('div');
             itemJuego.classList.add('game-item');
             itemJuego.innerHTML = `
-                <img src="${juego.background_image}" alt="${juego.name}" class="game-image" loading="lazy">
-                <h4>${juego.name}</h4>
-                <p>${juego.genres.map(genre => genre.name).join(', ')}</p>
-                <p><strong>Precio: $${juego.price}</strong></p>  <!-- Usar el precio preasignado -->
-                <button class="buy-button">Comprar</button>
+                <div class="game-image" style="background-image: url('${juego.background_image}');"></div>
+                <div class="game-details">
+                    <h4>${juego.name}</h4>
+                    <p>${juego.genres.map(genre => genre.name).join(', ')}</p>
+                    <p><strong>Precio: $${juego.price}</strong></p>
+                    <button class="buy-button" onclick="manejarCompra">Ir al juego<span class="arrow">&#8594;</span></button>
+                </div>
             `;
             contenedorCatalogo.appendChild(itemJuego);
         });
+        
     }
+
+
+    
+
 
     // Función para cargar más juegos desde la API
     function cargarMasJuegos() {
@@ -36,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`https://api.rawg.io/api/games?key=0f17cb5e138b45619507646513477518&page=${paginaActual}&page_size=${juegosPorPagina}`)
             .then(response => response.json())
             .then(data => {
+                todosjuegos.innerHTML = `<h4>Todos los Juegos  (+100)</h4>`;
                 console.log('Juegos cargados:', data.results);
                 const juegosConPrecio = data.results.map(juego => ({
                     ...juego,
@@ -51,6 +61,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 contenedorCatalogo.innerHTML = '<p>No se pudo cargar la información de los juegos.</p>';
             });
     }
+    
+    // Función para obtener el juego usando su ID
+    function obtenerJuegoPorId(id) {
+        fetch(`https://api.rawg.io/api/games/${id}?key=0f17cb5e138b45619507646513477518`)
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar los detalles del juego
+                const gameContainer = document.getElementById("game-container");
+                gameContainer.innerHTML = `
+                    <img src="${data.background_image}" alt="${data.name}">
+                    <h1>${data.name}</h1>
+                    <p><strong>Categoría:</strong> ${data.genres.map(genre => genre.name).join(', ')}</p>
+                    <p><strong>Precio:</strong> $${(Math.random() * (70 - 10) + 10).toFixed(2)}</p>
+                    <p>${data.description}</p>
+                    <button>Comprar</button>
+                `;
+            })
+            .catch(error => {
+                console.error("Error al obtener el juego:", error);
+            });
+    }
+    
 
     // Función de búsqueda que filtra los juegos por nombre
     function buscarJuegos(query) {
@@ -100,6 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mostrarJuegos(juegosFiltrados);  // Mostrar juegos filtrados
         modalFiltro.style.display = 'none';  // Cerrar modal
     });
+
 
     // Obtener los primeros juegos desde la API
     cargarMasJuegos();

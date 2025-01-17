@@ -17,8 +17,7 @@
             <ul class="nav-var">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="#">Comprar Juegos</a></li>
-                <li><a href="#">Mi Biblioteca</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="../pages/biblioteca.html">Mi Biblioteca</a></li>
             </ul>
         </nav>
     </header>
@@ -59,12 +58,22 @@
             </div>
         </div>
 
-
+        <h1 id="todosjuegos"></h1>
         <section class="catalogo">
             <div id="catalogo-container" class="catalogo-container">
-                <!-- Los juegos se cargarán aquí dinámicamente -->
+                <!-- Card del juego -->
+                <div class="game-item" id="game-card">
+                    <div class="game-image" id="game-image"></div>
+                    <div class="game-details">
+                        <h4 id="game-name"></h4>
+                        <p id="game-price"></p>
+                        <p id="game-category"></p>
+                        <button class="buy-button"><span class="arrow">&#8594;</span></button>
+                    </div>
+                </div>
             </div>
         </section>
+        
     </main>
 
     <script src="../javascript/buy.js"></script>
