@@ -159,26 +159,10 @@ header{
     display: inline-block;
     background-color: #525252;
     color: white;
+    margin-bottom: 10.125rem;
     padding: 0.3rem 0.8rem;
     border-radius: 1rem;
     font-size: 0.9rem;
-}
-
-.buy-button {
-    width: 100%; 
-    padding: 1rem; 
-    font-size: 1rem;
-    color: #fff;
-    background-color: #525252;
-    border: none;
-    border-radius:2rem; 
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: center;
-}
-
-.buy-button:hover {
-    background-color: #303030;
 }
 
 .games-container {

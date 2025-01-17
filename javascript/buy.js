@@ -9,9 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const filtroPrecioMin = document.getElementById('price-min');
     const filtroPrecioMax = document.getElementById('price-max');
     const todosjuegos = document.getElementById('todosjuegos');
+    const carritoButton = document.getElementById('carrito-button');  // Botón del carrito
+    const carritoContainer = document.getElementById('cart-modal'); // Contenedor del carrito
+    const cerrarCarritoBtn = document.getElementById('close-cart'); // Botón para cerrar el carrito (la "X")
+
     let todosLosJuegos = [];
     let juegosFiltrados = [];
-    let carrito = []; // Aquí guardamos los juegos del carrito
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];  // Cargar carrito desde localStorage
     let paginaActual = 1;
     const juegosPorPagina = 30;
 
@@ -39,80 +43,131 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Función para manejar la compra de un juego
     function manejarCompra(id, nombre, precio, imagen) {
-        // Verificar si el producto ya está en el carrito
         if (carrito.some(item => item.id === id)) {
-            Swal.fire('¡Este juego ya está en el carrito!', '', 'info');
-            return;
+            Swal.fire({
+                title: '¡Este juego ya está en el carrito!',
+                position: 'top-end',
+                timer: 3000,  
+                timerProgressBar: true,  
+                showConfirmButton: false  
+            });
+        } else {
+            carrito.push({ id, nombre, precio, imagen });
+
+            // Guardar carrito en localStorage
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+
+            // Actualizamos la vista del carrito
+            mostrarCarrito();
+
+            Swal.fire({
+                position: 'top-end',
+                title: '¡Juego agregado al carrito!',
+                text: `${nombre} se ha añadido con éxito.`,
+                timer: 3000,  
+                timerProgressBar: true,  
+                showConfirmButton: false  
+            });
         }
-
-        // Guardamos el juego en el carrito
-        carrito.push({ id, nombre, precio, imagen });
-
-        // Actualizamos la vista del carrito
-        mostrarCarrito();
-
-        // Mostramos el carrito si no está visible
-        const carritoContenedor = document.getElementById('carrito-container');
-        carritoContenedor.classList.add('visible'); // Añade la clase 'visible' para mover el carrito
-
-        // SweetAlert para confirmar la adición
-        Swal.fire({
-            title: '¡Juego agregado al carrito!',
-            text: `${nombre} se ha añadido con éxito.`,
-            icon: 'success',
-        });
     }
 
     // Función para mostrar los juegos en el carrito
+    // Función para mostrar los juegos en el carrito
     function mostrarCarrito() {
-        const carritoContenedor = document.getElementById('cart-items'); // Usa el ID correcto
-        if (!carritoContenedor) {
-            console.error('El elemento con ID "cart-items" no existe.');
-            return;
-        }
+        const carritoContenedor = document.getElementById('cart-items');
         carritoContenedor.innerHTML = ''; // Limpiar los elementos del carrito
     
-        carrito.forEach(juego => {
-            const juegoCarrito = document.createElement('div');
-            juegoCarrito.classList.add('carrito-item');
-            juegoCarrito.innerHTML = `
-                <div class="carrito-item-img" style="background-image: url('${juego.imagen}');"></div>
-                <p>${juego.nombre} - $${juego.precio}</p>
-            `;
-            carritoContenedor.appendChild(juegoCarrito);
-        });
-    
-        // Botón de finalizar compra
-        const finalizarCompraBtn = document.createElement('button');
-        finalizarCompraBtn.textContent = 'Finalizar Compra';
-        finalizarCompraBtn.classList.add('finalizar-compra');
-        finalizarCompraBtn.addEventListener('click', function () {
+        if (carrito.length === 0) {
+            carritoContainer.style.display = 'none'; // Si el carrito está vacío, ocultarlo
             Swal.fire({
-                title: '¡Gracias por tu compra!',
-                text: 'Tu compra ha sido finalizada.',
-                icon: 'success',
+                position: 'top-end',
+                title: 'Carrito vacío',
+                text: 'No tienes ningún juego en el carrito.',
+                timer: 3000,  
+                timerProgressBar: true,  
+                showConfirmButton: false  
             });
-        });
-        carritoContenedor.appendChild(finalizarCompraBtn);
+        } else {
+            carritoContainer.style.display = 'block'; // Si el carrito tiene juegos, mostrarlo
+    
+            // Crear los elementos del carrito
+            carrito.forEach((juego, index) => {
+                const juegoCarrito = document.createElement('div');
+                juegoCarrito.classList.add('carrito-item');
+                juegoCarrito.innerHTML = `
+                    <div class="carrito-item-img" style="background-image: url('${juego.imagen}');"></div>
+                    <p>${juego.nombre} - $${juego.precio}</p>
+                    <button class="eliminar-item" data-index="${index}">Eliminar</button>
+                `;
+                carritoContenedor.appendChild(juegoCarrito);
+            });
+    
+            // Agregar el botón de "Finalizar Compra"
+            const finalizarCompraBtn = document.createElement('button');
+            finalizarCompraBtn.id = 'finalizar-compra';
+            finalizarCompraBtn.textContent = 'Finalizar Compra';
+            finalizarCompraBtn.classList.add('finalizar-compra-btn');
+            carritoContenedor.appendChild(finalizarCompraBtn);
+    
+            // Evento del botón "Finalizar Compra"
+            finalizarCompraBtn.addEventListener('click', function () {
+                Swal.fire({
+                    position:'top-end',
+                    title: '¡Gracias por tu compra!',
+                    text: 'Tu compra ha sido finalizada.',
+                    timer: 3000,  
+                    timerProgressBar: true,  
+                    showConfirmButton: false  
+                }).then(() => {
+                    carrito = []; // Limpiar carrito después de la compra
+                    localStorage.removeItem('carrito'); // Limpiar carrito del localStorage
+    
+                    // Actualizar la vista del carrito para mostrar un mensaje personalizado
+                    carritoContenedor.innerHTML = '<p style="color: black;">Gracias por tu compra. Tu carrito está vacío.</p>';
+                });
+            });
+    
+            // Agregar evento para eliminar items
+            const botonesEliminar = document.querySelectorAll('.eliminar-item');
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', function () {
+                    const index = this.dataset.index;
+                    carrito.splice(index, 1); // Eliminar el juego del carrito
+                    localStorage.setItem('carrito', JSON.stringify(carrito)); // Actualizar localStorage
+                    mostrarCarrito(); // Actualizar la vista del carrito
+                });
+            });
+        }
     }
     
+
 
     // Agregar event listener para cada botón de compra
     function agregarBotonesCompra() {
         const botonesCompra = document.querySelectorAll('.buy-button');
-
         botonesCompra.forEach(boton => {
             boton.addEventListener('click', function () {
                 const id = this.dataset.id;
                 const nombre = this.dataset.nombre;
                 const precio = this.dataset.precio;
                 const imagen = this.dataset.imagen;
-                manejarCompra(id, nombre, precio, imagen);  // Llamamos a la función con los datos correctos
+                manejarCompra(id, nombre, precio, imagen);
             });
         });
     }
 
-    // Cargar más juegos desde la API
+    // Mostrar u ocultar el carrito
+    carritoButton.addEventListener('click', function () {
+        if (carritoContainer.style.display === 'none' || carritoContainer.style.display === '') {
+            carritoContainer.style.display = 'block';
+            mostrarCarrito();  // Cargar el carrito al mostrar el modal
+        } else {
+            carritoContainer.style.display = 'none';
+        }
+    });
+
+
+    // Función para cargar más juegos desde la API
     function cargarMasJuegos() {
         console.log('Cargando más juegos...');
         fetch(`https://api.rawg.io/api/games?key=0f17cb5e138b45619507646513477518&page=${paginaActual}&page_size=${juegosPorPagina}`)
@@ -121,21 +176,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 todosjuegos.innerHTML = `<h4>Todos los Juegos (+100)</h4>`;
                 console.log('Juegos cargados:', data.results);
 
-                // Filtra los juegos para asegurarse de que no haya duplicados basados en el id
                 const juegosConPrecio = data.results.map(juego => ({
                     ...juego,
-                    price: (Math.random() * (70 - 10) + 10).toFixed(2)  // Asignar precio aleatorio al cargar
+                    price: (Math.random() * (70 - 10) + 10).toFixed(2)
                 }));
 
-                // Filtrar los juegos que no estén ya en todosLosJuegos
                 const juegosNoRepetidos = juegosConPrecio.filter(juego => {
                     return !todosLosJuegos.some(j => j.id === juego.id);
                 });
 
-                // Concatenar los juegos no repetidos a todosLosJuegos
                 todosLosJuegos = todosLosJuegos.concat(juegosNoRepetidos);
-
-                // Actualizar los juegos filtrados y mostrar
                 juegosFiltrados = todosLosJuegos;
                 mostrarJuegos(juegosFiltrados);
                 paginaActual++;
@@ -177,6 +227,10 @@ document.addEventListener("DOMContentLoaded", function () {
         modalFiltro.style.display = 'none';
     });
 
+    cerrarCarritoBtn.addEventListener('click', function () {
+        carritoContainer.style.display = 'none';
+    });
+
     // Aplicar filtros
     botonAplicarFiltros.addEventListener('click', function () {
         const generosSeleccionados = Array.from(filtroGenero.querySelectorAll('input:checked')).map(input => input.value);
@@ -195,5 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Cargar juegos al inicio
+    mostrarCarrito();  // Mostrar el carrito si ya hay elementos en el carrito al cargar la página
     cargarMasJuegos();
 });

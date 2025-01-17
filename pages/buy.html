@@ -20,7 +20,12 @@
                 <li><a href="../pages/biblioteca.html">Mi Biblioteca</a></li>
             </ul>
         </nav>
+        <!-- Botón del carrito -->
+        <div class="cart-button-container">
+            <button id="carrito-button">Ver Carrito</button>
+        </div>
     </header>
+
     <main id="main" class="main-grid">
         <section class="search">
             <input type="text" id="search-bar" placeholder="Buscar juegos..." class="search-bar">
@@ -44,7 +49,6 @@
                     <label><input type="checkbox" value="Adventure"> Aventura</label>
                     <label><input type="checkbox" value="RPG"> RPG</label>
                     <label><input type="checkbox" value="Strategy"> Estrategia</label>
-                    <!-- Agrega más géneros según lo necesites -->
                 </div>
 
                 <h3>Rango de Precio:</h3>
@@ -61,30 +65,27 @@
         <h1 id="todosjuegos"></h1>
         <section class="catalogo">
             <div id="catalogo-container" class="catalogo-container">
-                <!-- Card del juego -->
                 <div class="game-item" id="game-card">
                     <div class="game-image" id="game-image"></div>
                     <div class="game-details">
                         <h4 id="game-name"></h4>
                         <p id="game-price"></p>
                         <p id="game-category"></p>
-                        <button class="buy-button">Comprar<span class="arrow">&#8594;</span></button>
+                        <button class="buy-button" data-id="uniqueGameID">Comprar <span class="arrow">&#8594;</span></button>
                     </div>
                 </div>
             </div>
         </section>
 
-
-        <div id="cart-modal" class="modal">
-            <div class="modal-content">
-                <span id="close-modal" class="close">&times;</span>
+        <!-- Modal del Carrito -->
+        <div id="cart-modal" class="modal-cart">
+            <div class="modal-content-cart">
+                <span id="close-cart" class="close">&times;</span>
                 <h3>Carrito</h3>
-                <div id="cart-items"></div>
-                <button id="finalizar-compra">Finalizar Compra</button>
+                <div id="cart-items">
+                </div>
             </div>
         </div>
-
-
 
     </main>
 

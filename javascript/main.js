@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     <img src="${juego.background_image}" alt="${juego.name}" style="width: 100%; height: auto; border-radius: 0.5rem;">
                     <h4>${juego.name}</h4>
                     <p>${juego.genres.map(genre => genre.name).join(', ')}</p>
-                    <button class="buy-button">Comprar</button>
                 `;
                 contenedorJuegos.appendChild(itemJuego);
             });

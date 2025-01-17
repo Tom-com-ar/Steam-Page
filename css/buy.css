@@ -278,95 +278,133 @@ input[type="number"] {
     cursor: pointer;
 }
 
-/* El contenedor del carrito estará oculto al inicio */
-#carrito-container {
-    position: fixed;
-    top: 0;
-    left: -300px;
-    /* Estará fuera de la pantalla a la izquierda */
-    width: 300px;
-    /* Ajusta el ancho del carrito */
-    height: 100%;
-    background-color: #f1f1f1;
-    box-shadow: 4px 0 6px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    transition: transform 0.3s ease;
-    /* Suaviza el movimiento */
+/* Estilo general del modal del carrito */
+
+/* Estilo del botón del carrito */
+.cart-button-container {
+    color: #000000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
 }
 
-/* Cuando el carrito es visible, se desplaza hacia la izquierda */
-#carrito-container.visible {
-    transform: translateX(300px);
-    /* Se mueve hacia la derecha, mostrando el carrito */
-}
-
-/* Estilos para el botón del carrito */
 #carrito-button {
-    position: fixed;
-    bottom: 20px;
-    /* Poner el botón en la parte inferior */
-    left: 20px;
-    /* Poner el botón a la izquierda */
-    padding: 10px 20px;
-    background-color: #28a745;
-    /* Color verde */
+    background-color: #838383; /* Azul primario */
     color: white;
     border: none;
     border-radius: 5px;
+    padding: 10px 20px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    z-index: 101;
-    /* Asegúrate de que el botón esté encima del carrito */
+    transition: background-color 0.3s ease;
 }
 
-/* Estilo para el botón cuando se pone el mouse encima */
 #carrito-button:hover {
-    background-color: #218838;
+    background-color: #414141; /* Azul más oscuro al pasar el mouse */
 }
 
-#carrito-container {
-    z-index: 100;
-}
-
-#carrito-button {
-    z-index: 101;
-    /* Más alto que el carrito para que no se cubra */
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
+.modal-cart {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000; /* Encima de otros elementos */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto; /* Agregar scroll si el contenido es demasiado largo */
+    background-color: rgba(137, 137, 137, 0.775);
 }
 
-.modal-content {
-    background-color: white;
-    margin: 10% auto;
+/* Contenedor del contenido del modal */
+.modal-content-cart {
+    background-color: #f9f9f9;
+    margin: 10% auto; /* Centrado vertical y horizontal */
     padding: 20px;
-    width: 50%;
-    border-radius: 8px;
+    border-radius: 10px;
+    width: 80%; /* Ajusta el ancho del modal */
+    max-width: 600px; /* Máximo ancho para pantallas grandes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.close {
-    float: right;
-    font-size: 1.5rem;
-    cursor: pointer;
+.modal-content-cart h3{
+    color:black;
 }
 
-.carrito-img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+
+/* Animación de aparición del modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.carrito-item {
+/* Estilo de los elementos del carrito */
+#cart-items {
+    max-height: 300px; /* Altura máxima para scroll interno */
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+#cart-item p{
+    color: #000000;
+
+}
+
+#cart-items div {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border: 2px solid #292929;
+    border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Información del producto en el carrito */
+#cart-items div p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Botón de finalizar compra */
+.finalizar-compra-btn {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.finalizar-compra-btn:hover {
+    background-color: #218838;
+}
+
+
+.eliminar-item{
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: #ffffff;
+    background-color: #800000; /* Azul primario */
+    
+}
+
+.eliminar-item:hover{
+    background-color: #ff0000; /* Azul primario */
+    cursor: pointer;
 }
