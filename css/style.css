@@ -84,23 +84,9 @@ header{
 .welcome-message {
     font-size: 1.5rem;
     color: #ffffff;
-    margin-left: 1rem;
+    margin-left: 2rem;
     display: inline-block;
     font-weight: bold;
-}
-
-.search {
-    grid-column: span 6; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.search-bar {
-    width: 50%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
 }
 
 .carousel {
@@ -190,4 +176,3 @@ header{
     padding: 1rem;
     text-align: center;
 }
-

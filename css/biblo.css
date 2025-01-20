@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow:hidden;
+    overflow: hidden;
     transition: background-image 0.5s ease-in-out;
 }
 
@@ -69,13 +69,13 @@ body {
     color: rgb(255, 255, 255);
     font-size: 2.5rem;
     font-weight: 600;
-    position:fixed;
+    position: fixed;
 }
 
 .stats {
     margin-left: 600px;
     margin-top: 350px;
-    position:fixed;
+    position: fixed;
     font-size: 1rem;
     color: #ccc;
 }
@@ -85,7 +85,7 @@ body {
     gap: 30px;
     justify-content: start;
     align-items: center;
-    width: 70%;
+    width: 100%;
     height: auto;
     overflow: hidden; 
     padding: 20px 0;
@@ -98,14 +98,13 @@ body {
     display: flex;
     gap: 25px;
     transition: transform 0.3s ease-in-out;
-    min-width: 100%; 
-    flex-shrink: 0;
+    max-width: 100%; 
 }
 
 .carrusel-item {
     margin-top: 100px; 
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     background-size: cover;
     background-position: center;
     border-radius: 10px;
@@ -115,7 +114,7 @@ body {
 }
 
 .carrusel-item.activo {
-    border: 2px solid #fff;
+    border:3px solid #fff;
     transform: scale(1.2);
     opacity: 1;
 }
@@ -124,6 +123,7 @@ body {
     position: absolute;
     bottom: 10px;
     left: 50%;
+    padding-right: 30px;
     transform: translateX(-50%);
     width: 30px;
     height: 30px;
