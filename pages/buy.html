@@ -32,6 +32,10 @@
             <div id="welcome-message" class="welcome-message"></div>
         </section>
 
+        <div id="loading-container" style="display:none;">
+            <p>Cargando juegos...</p>
+        </div>
+
         <!-- Botón para abrir el modal de filtros -->
         <section class="filters">
             <button id="filter-button" class="filter-button">Filtrar</button>
@@ -74,10 +78,6 @@
                         <button class="buy-button" data-id="uniqueGameID">Comprar <span class="arrow">&#8594;</span></button>
                     </div>
                 </div>
-                <div class="load-more-container">
-                    <button id="load-more-btn">Ver más</button>
-                    <button id="load-less-btn" style="display: none;">Ver menos</button>
-                </div>
             </div>
         </section>
 
@@ -90,7 +90,6 @@
                 </div>
             </div>
         </div>
-
     </main>
 
     <script src="../javascript/buy.js"></script>

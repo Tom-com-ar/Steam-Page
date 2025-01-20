@@ -1,4 +1,3 @@
-
 /*BUY.HTML*/
 
 // Variables globales
@@ -20,12 +19,10 @@ let todosLosJuegos = [];
 let juegosFiltrados = [];
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];  // Cargar carrito desde localStorage
 let paginaActual = 1;
-const juegosPorPagina = 30;
 
 // Funciones globales
 
-
-
+// Función para agregar los botones de compra a los juegos en el catálogo
 function agregarBotonesCompra() {
     const botonesCompra = document.querySelectorAll('.buy-button');
     botonesCompra.forEach(boton => {
@@ -39,10 +36,12 @@ function agregarBotonesCompra() {
     });
 }
 
+// Función para mostrar los juegos en el catálogo
 function mostrarJuegos(juegos) {
     const contenedorCatalogo = document.getElementById('catalogo-container');
-    contenedorCatalogo.innerHTML = '';
+    contenedorCatalogo.innerHTML = '';  // Limpiar el contenido previo
     juegos.forEach(juego => {
+        // Crear un nuevo contenedor para cada juego
         const itemJuego = document.createElement('div');
         itemJuego.classList.add('game-item');
         itemJuego.innerHTML = `
@@ -61,8 +60,21 @@ function mostrarJuegos(juegos) {
     agregarBotonesCompra();
 }
 
+// Función para manejar la compra de un juego
 function manejarCompra(id, nombre, precio, imagen) {
-    if (carrito.some(item => item.id === id)) {
+    let biblioteca = JSON.parse(localStorage.getItem('biblioteca')) || [];  // Cargar la biblioteca desde localStorage
+
+    // Comprobar si el juego ya está en la biblioteca
+    if (biblioteca.some(item => item.id === id)) {
+        Swal.fire({
+            title: '¡Ya tienes este juego en tu biblioteca!',
+            position: 'top-end',
+            timer: 3000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    } else if (carrito.some(item => item.id === id)) {
+        // Si el juego ya está en el carrito
         Swal.fire({
             title: '¡Este juego ya está en el carrito!',
             position: 'top-end',
@@ -71,6 +83,7 @@ function manejarCompra(id, nombre, precio, imagen) {
             showConfirmButton: false
         });
     } else {
+        // Agregar el juego al carrito
         carrito.push({ id, nombre, precio, imagen });
 
         // Guardar carrito en localStorage
@@ -79,6 +92,7 @@ function manejarCompra(id, nombre, precio, imagen) {
         // Actualizamos la vista del carrito
         mostrarCarrito();
 
+        // Mostrar notificación de éxito
         Swal.fire({
             position: 'top-end',
             title: '¡Juego agregado al carrito!',
@@ -90,13 +104,14 @@ function manejarCompra(id, nombre, precio, imagen) {
     }
 }
 
+// Función para mostrar el carrito
 function mostrarCarrito() {
     const carritoContainer = document.getElementById('cart-modal');
     const carritoContenedor = document.getElementById('cart-items');
-    carritoContenedor.innerHTML = '';
+    carritoContenedor.innerHTML = '';  // Limpiar el contenido del carrito
 
     if (carrito.length === 0) {
-        carritoContainer.style.display = 'none';
+        carritoContainer.style.display = 'none';  // Si el carrito está vacío, ocultarlo
         Swal.fire({
             position: 'top-end',
             title: 'Carrito vacío',
@@ -106,9 +121,10 @@ function mostrarCarrito() {
             showConfirmButton: false
         });
     } else {
-        carritoContainer.style.display = 'block';
+        carritoContainer.style.display = 'block';  // Mostrar el carrito si no está vacío
 
         carrito.forEach((juego, index) => {
+            // Crear un contenedor para cada juego en el carrito
             const juegoCarrito = document.createElement('div');
             juegoCarrito.classList.add('carrito-item');
             juegoCarrito.innerHTML = `
@@ -119,17 +135,22 @@ function mostrarCarrito() {
             carritoContenedor.appendChild(juegoCarrito);
         });
 
+        // Crear un botón para finalizar la compra
+        let biblioteca = JSON.parse(localStorage.getItem('biblioteca')) || [];
         const finalizarCompraBtn = document.createElement('button');
         finalizarCompraBtn.id = 'finalizar-compra';
         finalizarCompraBtn.textContent = 'Finalizar Compra';
         finalizarCompraBtn.classList.add('finalizar-compra-btn');
         carritoContenedor.appendChild(finalizarCompraBtn);
 
-        // Modificar la función del evento click para finalizar la compra
+        // Función para finalizar la compra
         finalizarCompraBtn.addEventListener('click', function () {
-            // Guardamos los juegos comprados en el localStorage
-            localStorage.setItem('comprasFinalizadas', JSON.stringify(carrito));
-
+            // Agregar los juegos comprados a la biblioteca
+            biblioteca.push(...carrito);
+        
+            // Guardar la biblioteca actualizada en localStorage
+            localStorage.setItem('biblioteca', JSON.stringify(biblioteca));
+        
             Swal.fire({
                 position: 'top-end',
                 title: '¡Gracias por tu compra!',
@@ -144,57 +165,88 @@ function mostrarCarrito() {
             });
         });
 
-
+        // Función para eliminar un juego del carrito
         const botonesEliminar = document.querySelectorAll('.eliminar-item');
         botonesEliminar.forEach(boton => {
             boton.addEventListener('click', function () {
                 const index = this.dataset.index;
                 carrito.splice(index, 1);
                 localStorage.setItem('carrito', JSON.stringify(carrito));
-                mostrarCarrito();
+                mostrarCarrito();  // Volver a mostrar el carrito actualizado
             });
         });
     }
 }
 
+// Función para cargar más juegos al catálogo
+const juegosPorPagina = 30;
+const juegosDeseados = 350;
+
 function cargarMasJuegos() {
-    fetch(`https://api.rawg.io/api/games?key=0f17cb5e138b45619507646513477518&page=${paginaActual}&page_size=${juegosPorPagina}`)
-        .then(response => response.json())
-        .then(data => {
-            const juegosConPrecio = data.results.map(juego => ({
-                ...juego,
-                price: (Math.random() * (70 - 10) + 10).toFixed(2)
-            }));
+    let juegosCargados = 0;
+    let juegosTotales = [];
 
-            const juegosNoRepetidos = juegosConPrecio.filter(juego => {
-                return !todosLosJuegos.some(j => j.id === juego.id);
-            });
+    // Mostrar el mensaje de carga
+    const loadingContainer = document.getElementById('loading-container');
+    loadingContainer.style.display = 'block';
 
-            todosLosJuegos = todosLosJuegos.concat(juegosNoRepetidos);
-            juegosFiltrados = todosLosJuegos;
-            mostrarJuegos(juegosFiltrados);
-            paginaActual++;
-        })
-        .catch(error => {
-            console.error('Error al obtener los datos:', error);
+    // Función para cargar juegos en paralelo
+    function cargarJuegosEnParalelo() {
+        const promesas = [];
+        let paginasNecesarias = Math.ceil(juegosDeseados / juegosPorPagina);
+
+        for (let i = 1; i <= paginasNecesarias; i++) {
+            promesas.push(fetch(`https://api.rawg.io/api/games?key=0f17cb5e138b45619507646513477518&page=${i}&page_size=${juegosPorPagina}`)
+                .then(response => response.json())
+                .then(data => {
+                    const juegosConPrecio = data.results.map(juego => ({
+                        ...juego,
+                        price: (Math.random() * (70 - 10) + 10).toFixed(2)  // Asignar un precio aleatorio
+                    }));
+
+                    // Concatenar los nuevos juegos cargados
+                    juegosTotales = juegosTotales.concat(juegosConPrecio);
+                    juegosCargados += juegosConPrecio.length;
+
+                    // Mostrar los juegos a medida que se cargan
+                    mostrarJuegos(juegosTotales.slice(0, juegosCargados));
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos:', error);
+                }));
+        }
+
+        // Esperar a que todas las promesas se resuelvan
+        Promise.all(promesas).then(() => {
+            // Ocultar el mensaje de carga después de 7.5 segundos
+            setTimeout(() => {
+                loadingContainer.style.display = 'none';
+            }, 7500);
         });
+    }
+
+    cargarJuegosEnParalelo();
 }
 
-function buscarJuegos(query) {
-    juegosFiltrados = todosLosJuegos.filter(juego => juego.name.toLowerCase().includes(query.toLowerCase()));
-    mostrarJuegos(juegosFiltrados);
-}
+// Filtrado de juegos
+botonFiltro.addEventListener('click', () => {
+    modalFiltro.style.display = 'block';
+});
 
-botonAplicarFiltros.addEventListener('click', function () {
-    const generosSeleccionados = Array.from(filtroGenero.querySelectorAll('input:checked')).map(input => input.value);
+cerrarModal.addEventListener('click', () => {
+    modalFiltro.style.display = 'none';
+});
+
+// Filtrar juegos por género y precio
+botonAplicarFiltros.addEventListener('click', () => {
+    const filtroGeneroSeleccionado = filtroGenero.value;
     const precioMin = parseFloat(filtroPrecioMin.value) || 0;
-    const precioMax = parseFloat(filtroPrecioMax.value) || 100;
+    const precioMax = parseFloat(filtroPrecioMax.value) || Infinity;
 
     juegosFiltrados = todosLosJuegos.filter(juego => {
-        const generosDelJuego = juego.genres.map(genre => genre.name);
-        const esGeneroCoincidente = generosSeleccionados.length === 0 || generosSeleccionados.some(genre => generosDelJuego.includes(genre));
-        const esPrecioCoincidente = parseFloat(juego.price) >= precioMin && parseFloat(juego.price) <= precioMax;
-        return esGeneroCoincidente && esPrecioCoincidente;
+        const estaEnRangoDePrecio = juego.price >= precioMin && juego.price <= precioMax;
+        const coincideGenero = filtroGeneroSeleccionado ? juego.genres.some(genre => genre.name === filtroGeneroSeleccionado) : true;
+        return estaEnRangoDePrecio && coincideGenero;
     });
 
     mostrarJuegos(juegosFiltrados);
