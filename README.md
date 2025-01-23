@@ -1,7 +1,7 @@
 # GAMES-PAGE
 
 IMPORTANTE:
-En el formulario de incio puede ir cualquier dato.
+En el formulario de inicio puede ir cualquier dato.
 
 **Nota:**
 - La página puede tardar un poco en cargar debido a la gran cantidad de información y juegos disponibles.
