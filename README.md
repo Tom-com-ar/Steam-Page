@@ -1,7 +1,9 @@
 # GAMES-PAGE
 
+IMPORTANTE:
+En el formulario de incio puede ir cualquier dato.
+
 **Nota:**
-- L página no es resposibe lo hare mas adelante porque me gusto el proyecto.
 - La página puede tardar un poco en cargar debido a la gran cantidad de información y juegos disponibles.
 - Los precios de los juegos son aleatorios y no reflejan valores reales de mercado.
 - La información sobre el tiempo de juego y los logros es meramente estética y no tiene vínculo con datos reales.
